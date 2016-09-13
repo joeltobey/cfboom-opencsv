@@ -30,15 +30,15 @@ component {
     // If true, looks for layouts in the parent first, if not found, then in module. Else vice-versa
     this.layoutParentLookup = true;
     // Module Entry Point
-    this.entryPoint         = "cfboom/http";
+    this.entryPoint         = "cfboom/opencsv";
     // Model Namespace
-    this.modelNamespace     = "cfboomHttp";
+    this.modelNamespace     = "cfboomOpencsv";
     // CF Mapping
-    this.cfmapping          = "cfboom/http";
+    this.cfmapping          = "cfboom/opencsv";
     // Auto-map models
     this.autoMapModels      = false;
     // Module Dependencies
-    this.dependencies       = [ "cfboom-lang" ];
+    this.dependencies       = [ "cfboom-lang", "cbjavaloader" ];
 
     function configure(){
 
@@ -49,20 +49,17 @@ component {
         };
 
         // Binder Mappings
-        binder.map("BasicHttpClient@cfboomHttp").to("cfboom.http.client.BasicHttpClient");
-
-        // Need to map cfboom.http.HttpStatus with noInit(). Otherwise, the factory method mapping
-        // will try to autowire it and attempt to do the init() method.
-        binder.map("cfboom.http.HttpStatus").to("cfboom.http.HttpStatus").noInit();
-        binder.map("HttpStatus@cfboomHttp").toFactoryMethod("cfboom.http.HttpStatus", "enum").asSingleton().noInit();
+        binder.map("CSVReader@cfboomOpencsv").to("cfboom.opencsv.CSVReader");
     }
 
     /**
      * Fired when the module is registered and activated.
      */
     function onLoad(){
-    	// parse parent settings
-		parseParentSettings();
+        // parse parent settings
+        parseParentSettings();
+        // Class load antisamy
+        wirebox.getInstance( "loader@cbjavaloader" ).appendPaths( modulePath & "/lib" );
     }
 
     /**
