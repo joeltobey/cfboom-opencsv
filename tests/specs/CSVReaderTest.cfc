@@ -24,10 +24,11 @@ component
 	output="false"
 {
 	// this will run once after initialization and before setUp()
-	public void function beforeAll() {
-		super.beforeAll();
+	public void function beforeTests() {
+		super.beforeTests();
+		var javaLoader = getInstance( "loader@cbjavaloader" );
 		LINE_SEPARATOR = createObject("java", "java.lang.System").getProperty("line.separator");
-		variables['CSVReaderNullFieldIndicator'] = createObject("java", "com.opencsv.enums.CSVReaderNullFieldIndicator");
+		variables['CSVReaderNullFieldIndicator'] = javaLoader.create( "com.opencsv.enums.CSVReaderNullFieldIndicator" );
 	}
 
 	// this will run before every single test in this test case
@@ -42,7 +43,7 @@ component
 		sb.append('"""""","test"').append(LINE_SEPARATOR); // """""","test"  representing:  "", test
 		sb.append('"a').append(LINE_SEPARATOR).append('b",b,"').append(LINE_SEPARATOR).append('d",e').append(LINE_SEPARATOR);
 
-		variables['csvr'] = new cfboom.opencsv.CSVReader( sb.toString() ).build();
+        variables['csvr'] = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).build();
 	}
 
 	// this will run after every single test in this test case
@@ -52,8 +53,10 @@ component
 	}
 
 	// this will run once after all tests have been run
-	public void function afterAll() {
-		super.afterAll();
+	public void function afterTests() {
+		structDelete(variables, "LINE_SEPARATOR");
+		structDelete(variables, "CSVReaderNullFieldIndicator");
+		super.afterTests();
 	}
 
 	/**
@@ -104,7 +107,7 @@ component
 
 		var reader = createObject("java", "java.io.StringReader").init( sb.toString() );
 
-		var builder = createObject("java", "com.opencsv.CSVReaderBuilder").init(reader);
+		var builder = getInstance( "CSVReader@cfboomOpencsv" ).load( reader );
 		var defaultReader = builder.build();
 
 		var nextLine = defaultReader.readNext();
@@ -125,7 +128,7 @@ component
 		sb.append('"""""","test"').append(LINE_SEPARATOR); // """""","test"  representing:  "", test
 		sb.append('"a').append(LINE_SEPARATOR).append('b",b,"').append(LINE_SEPARATOR).append('d",e').append(LINE_SEPARATOR);
 
-		var csvreader = new cfboom.opencsv.CSVReader( sb.toString() ).withStrictQuotes(true).build();
+		var csvreader = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withStrictQuotes(true).build();
 
 		// test normal case
 		var nextLine = csvreader.readNext();
@@ -187,7 +190,7 @@ component
 		sb.append("a#chr(9)#b#chr(9)#c").append(LINE_SEPARATOR);   // tab separated case
 		sb.append("a#chr(9)#'b#chr(9)#b#chr(9)#b'#chr(9)#c").append(LINE_SEPARATOR);  // single quoted elements
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).withSeparator( chr(9) ).withQuoteChar("'").build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withSeparator( chr(9) ).withQuoteChar("'").build();
 
 		var nextLine = c.readNext();
 		assertEquals(3, arrayLen(nextLine));
@@ -200,7 +203,7 @@ component
 		var sb = createObject("java", "java.lang.StringBuilder").init( javaCast("int", 1024) );
 		sb.append("a#chr(9)#b#chr(9)#c").append(LINE_SEPARATOR);   // tab separated case
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).withSeparator( chr(9) ).build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withSeparator( chr(9) ).build();
 
 		var nextLine = c.readNext();
 		assertEquals(3, arrayLen(nextLine));
@@ -217,7 +220,7 @@ component
 		sb.append("Skip this line#chr(9)# with tab").append(LINE_SEPARATOR);   // should skip this
 		sb.append("And this line too").append(LINE_SEPARATOR);   // and this
 		sb.append("a#chr(9)#'b#chr(9)#b#chr(9)#b'#chr(9)#c").append(LINE_SEPARATOR);  // single quoted elements
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).withSeparator( chr(9) ).withQuoteChar("'").withSkipLines(2).build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withSeparator( chr(9) ).withQuoteChar("'").withSkipLines(2).build();
 
 		var nextLine = c.readNext();
 		assertEquals(3, arrayLen(nextLine));
@@ -239,7 +242,7 @@ component
 		sb.append(LINE_SEPARATOR);					// no data here just a blank line
 		sb.append("a,""b").append(LINE_SEPARATOR).append("b"",c");
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).withSkipLines(2).build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withSkipLines(2).build();
 
 		assertEquals(0, c.getLinesRead());
 		assertEquals(0, c.getRecordsRead());
@@ -283,7 +286,7 @@ component
 		sb.append("Skip this line?t with tab").append(LINE_SEPARATOR);   // should skip this
 		sb.append("And this line too").append(LINE_SEPARATOR);   // and this
 		sb.append("a#chr(9)#'b#chr(9)#b#chr(9)#b'#chr(9)#'c'").append(LINE_SEPARATOR);  // single quoted elements
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).withSeparator( chr(9) ).withQuoteChar("'").withSkipLines(2).withEscapeChar("?").build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withSeparator( chr(9) ).withQuoteChar("'").withSkipLines(2).withEscapeChar("?").build();
 
 		var nextLine = c.readNext();
 
@@ -305,7 +308,7 @@ component
 
 		sb.append("a,1234567,c").append(LINE_SEPARATOR);// a,1234567,c
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).build();
 
 		var nextLine = c.readNext();
 		assertEquals(3, arrayLen(nextLine));
@@ -328,7 +331,7 @@ component
 
 		sb.append("a,'''',c").append(LINE_SEPARATOR);// a,',c
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).withSeparator(",").withQuoteChar("'").build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withSeparator(",").withQuoteChar("'").build();
 
 		var nextLine = c.readNext();
 		assertEquals(3, arrayLen(nextLine));
@@ -351,7 +354,7 @@ component
 
 		sb.append("a,'',c").append(LINE_SEPARATOR);// a,,c
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).withSeparator(",").withQuoteChar("'").build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withSeparator(",").withQuoteChar("'").build();
 
 		var nextLine = c.readNext();
 		assertEquals(3, arrayLen(nextLine));
@@ -367,7 +370,7 @@ component
 
 		sb.append("""a"",""b"",""c""   ");
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).withStrictQuotes(true).build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withStrictQuotes(true).build();
 
 		var nextLine = c.readNext();
 		assertEquals(3, arrayLen(nextLine));
@@ -383,7 +386,7 @@ component
 
 		sb.append("a,""123\""4567"",c").append(LINE_SEPARATOR);// a,123"4",c
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).build();
 
 		var nextLine = c.readNext();
 		assertEquals(3, arrayLen(nextLine));
@@ -397,7 +400,7 @@ component
 
 		sb.append("a,""123\\\\4567"",c").append(LINE_SEPARATOR);// a,123"4",c
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).build();
 
 		var nextLine = c.readNext();
 		assertEquals(3, arrayLen(nextLine));
@@ -418,7 +421,7 @@ component
 
 		sb.append("a,'',c").append(LINE_SEPARATOR);// a,'',c
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).build();
 
 		var nextLine = c.readNext();
 		assertEquals(3, arrayLen(nextLine));
@@ -440,7 +443,7 @@ component
 
 		sb.append("""a"",""1234567"",""c""").append(LINE_SEPARATOR); // "a","1234567","c"
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).withStrictQuotes(true).build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withStrictQuotes(true).build();
 
 		var nextLine = c.readNext();
 		assertEquals(3, arrayLen(nextLine));
@@ -460,7 +463,7 @@ component
 
 		// public CSVReader(Reader reader, char separator, char quotechar, char escape, int line, boolean strictQuotes,
 		// boolean ignoreLeadingWhiteSpace, boolean keepCarriageReturn)
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).withStrictQuotes(true).withKeepCarriageReturn(true).build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withStrictQuotes(true).withKeepCarriageReturn(true).build();
 		//CSVReader c = new CSVReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_ESCAPE_CHARACTER,
 		//		CSVReader.DEFAULT_SKIP_LINES, true, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE, true);
 
@@ -480,7 +483,7 @@ component
 		// sb.append("a,b,c,ddd\\\"eee\nf,g,h,\"iii,jjj\"");
 		sb.append("a,b,c,ddd\""eee#LINE_SEPARATOR#f,g,h,""iii,jjj""");
 
-		var c = new cfboom.opencsv.CSVReader( sb.toString() ).build();
+		var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).build();
 
 		var nextLine = c.readNext();
 
@@ -498,7 +501,7 @@ component
 
 		// new CSVReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVReader.DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
 		try {
-			var c = new cfboom.opencsv.CSVReader( sb.toString() ).withQuoteChar('"').withEscapeChar('"').build();
+			var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withQuoteChar('"').withEscapeChar('"').build();
 			fail("Should have thrown java.lang.UnsupportedOperationException.");
 		} catch (any ex) {
 			if (ex.type != "java.lang.UnsupportedOperationException") {
@@ -515,7 +518,7 @@ component
 
 		// new CSVReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_SEPARATOR, CSVReader.DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
 		try {
-			var c = new cfboom.opencsv.CSVReader( sb.toString() ).withSeparator(',').withEscapeChar(',').build();
+			var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withSeparator(',').withEscapeChar(',').build();
 			fail("Should have thrown java.lang.UnsupportedOperationException.");
 		} catch (any ex) {
 			if (ex.type != "java.lang.UnsupportedOperationException") {
@@ -532,7 +535,7 @@ component
 
 		//new CSVReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_ESCAPE_CHARACTER, CSVReader.DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
 		try {
-			var c = new cfboom.opencsv.CSVReader( sb.toString() ).withSeparator(',').withQuoteChar(',').build();
+			var c = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withSeparator(',').withQuoteChar(',').build();
 			fail("Should have thrown java.lang.UnsupportedOperationException.");
 		} catch (any ex) {
 			if (ex.type != "java.lang.UnsupportedOperationException") {
@@ -574,7 +577,7 @@ component
 	}
 
 	public void function testIssue102() {
-		var csvReader = new cfboom.opencsv.CSVReader( """"",a#LINE_SEPARATOR#"""",b#LINE_SEPARATOR#" ).build();
+		var csvReader = getInstance( "CSVReader@cfboomOpencsv" ).load( """"",a#LINE_SEPARATOR#"""",b#LINE_SEPARATOR#" ).build();
 
 		var firstRow = csvReader.readNext();
 		assertEquals(2, arrayLen(firstRow));
@@ -592,7 +595,7 @@ component
 
 		sb.append(",,,"""",");
 
-		var csvReader = new cfboom.opencsv.CSVReader( sb.toString() ).build();
+		var csvReader = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).build();
 
 		var row = csvReader.readNext();
 
@@ -610,7 +613,7 @@ component
 
 		sb.append(",,,"""",");
 
-		var csvReader = new cfboom.opencsv.CSVReader( sb.toString() ).withFieldAsNull(CSVReaderNullFieldIndicator.EMPTY_SEPARATORS).build();
+		var csvReader = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withFieldAsNull(CSVReaderNullFieldIndicator.EMPTY_SEPARATORS).build();
 
 		var items = csvReader.readNext();
 
@@ -637,7 +640,7 @@ component
 
 		sb.append(",,,"""",");
 
-		var csvReader = new cfboom.opencsv.CSVReader( sb.toString() ).withFieldAsNull(CSVReaderNullFieldIndicator.EMPTY_QUOTES).build();
+		var csvReader = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withFieldAsNull(CSVReaderNullFieldIndicator.EMPTY_QUOTES).build();
 
 		var items = csvReader.readNext();
 
@@ -665,7 +668,7 @@ component
 
 		sb.append(",,,"""",");
 
-		var csvReader = new cfboom.opencsv.CSVReader( sb.toString() ).withFieldAsNull(CSVReaderNullFieldIndicator.BOTH).build();
+		var csvReader = getInstance( "CSVReader@cfboomOpencsv" ).load( sb.toString() ).withFieldAsNull(CSVReaderNullFieldIndicator.BOTH).build();
 
 		var items = csvReader.readNext();
 

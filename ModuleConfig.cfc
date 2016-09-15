@@ -38,7 +38,7 @@ component {
     // Auto-map models
     this.autoMapModels      = false;
     // Module Dependencies
-    this.dependencies       = [ "cfboom-lang", "cbjavaloader" ];
+    this.dependencies       = [ "cbjavaloader", "cfboom-lang", "cfboom-util" ];
 
     function configure(){
 
@@ -50,6 +50,7 @@ component {
 
         // Binder Mappings
         binder.map("CSVReader@cfboomOpencsv").to("cfboom.opencsv.CSVReader");
+        binder.map("CSVWriter@cfboomOpencsv").to("cfboom.opencsv.CSVWriter");
     }
 
     /**

@@ -4,16 +4,23 @@ component
     output="false"
 {
     property name="javaLoader" inject="loader@cbjavaloader";
-    
+
     public cfboom.opencsv.CSVReader function init() {
         return this;
     }
 
-    public void function load( required string csv ) {
+    public cfboom.opencsv.CSVReader function load( string csv, any reader ) {
         _instance['CSVParserBuilder'] = javaLoader.create( "com.opencsv.CSVParserBuilder" ).init();
-        _instance['CSVReaderBuilder'] = javaLoader.create( "com.opencsv.CSVReaderBuilder" ).init(
-            createObject("java", "java.io.StringReader").init( arguments.csv )
-        );
+        if (structKeyExists(arguments, "csv")) {
+            _instance['CSVReaderBuilder'] = javaLoader.create( "com.opencsv.CSVReaderBuilder" ).init(
+                createObject("java", "java.io.StringReader").init( arguments.csv )
+            );
+        } else if (structKeyExists(arguments, "reader")) {
+            _instance['CSVReaderBuilder'] = javaLoader.create( "com.opencsv.CSVReaderBuilder" ).init( arguments.reader );
+        } else {
+            throw("Can't load CSVReader. Must have either 'csv' or 'reader'");
+        }
+        return this;
     }
 
     /**

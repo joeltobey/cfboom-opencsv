@@ -24,9 +24,10 @@ component
 	output="false"
 {
 	// this will run once after initialization and before setUp()
-	public void function beforeAll() {
-		super.beforeAll();
-		variables['CSVWriter'] = createObject("java", "com.opencsv.CSVWriter");
+	public void function beforeTests() {
+		super.beforeTests();
+		var javaLoader = getInstance( "loader@cbjavaloader" );
+		variables['CSVWriter'] = javaLoader.create( "com.opencsv.CSVWriter" );
 		LINE_SEPARATOR = createObject("java", "java.lang.System").getProperty("line.separator");
 	}
 
@@ -36,7 +37,7 @@ component
 		var cArgs = {};
 		cArgs['separator'] = ",";
 		cArgs['quotechar'] = "'";
-		variables['csvw'] = new cfboom.opencsv.CSVWriter(argumentCollection:cArgs);
+		variables['csvw'] = getInstance( "CSVWriter@cfboomOpencsv" ).build(argumentCollection:cArgs);
 	}
 
 	// this will run after every single test in this test case
@@ -46,8 +47,9 @@ component
 	}
 
 	// this will run once after all tests have been run
-	public void function afterAll() {
-		super.afterAll();
+	public void function afterTests() {
+		structDelete(variables, "CSVWriter");
+		super.afterTests();
 	}
 
 	/**
@@ -63,7 +65,7 @@ component
 		cArgs['writer'] = sw;
 		cArgs['separator'] = ",";
 		cArgs['quotechar'] = "'";
-		var csvw = new cfboom.opencsv.CSVWriter(argumentCollection:cArgs);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(argumentCollection:cArgs);
 		csvw.writeNext(args);
 		return sw.toString();
 	}
@@ -75,7 +77,7 @@ component
 		cArgs['separator'] = CSVWriter.DEFAULT_SEPARATOR;
 		cArgs['quotechar'] = "'";
 		cArgs['escapechar'] = CSVWriter.NO_ESCAPE_CHARACTER;
-		var csvw = new cfboom.opencsv.CSVWriter(argumentCollection:cArgs);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(argumentCollection:cArgs);
 		csvw.writeNext(args);
 		return sw.toString();
 	}
@@ -84,7 +86,7 @@ component
 		var sw = createObject("java", "java.io.StringWriter").init();
 		var cArgs = {};
 		cArgs['writer'] = sw;
-		var csvw = new cfboom.opencsv.CSVWriter(argumentCollection:cArgs);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(argumentCollection:cArgs);
 		csvw.writeNext(javaCast("null", ""));
 		assertEquals(0, len(sw.toString()));
 	}
@@ -93,7 +95,7 @@ component
 		var sw = createObject("java", "java.io.StringWriter").init();
 		var cArgs = {};
 		cArgs['writer'] = sw;
-		var csvw = new cfboom.opencsv.CSVWriter(argumentCollection:cArgs);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(argumentCollection:cArgs);
 		csvw.writeNext(javaCast("null", ""), false);
 		assertEquals(0, len(sw.toString()));
 	}
@@ -197,7 +199,7 @@ component
 		arrayAppend(allElements, line3);
 
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw);
 		csvw.writeAll(allElements);
 
 		var result = sw.toString();
@@ -222,7 +224,7 @@ component
 		arrayAppend(allElements, line3);
 
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw);
 		csvw.writeAll(allElements, false);
 
 		var result = sw.toString();
@@ -243,7 +245,7 @@ component
 
 		var line = ["Foo", "Bar", "Baz"];
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER);
 		csvw.writeNext(line);
 		var result = sw.toString();
 
@@ -259,7 +261,7 @@ component
 
 		var line = ["Foo", "Bar", "Baz"];
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER);
 		csvw.writeNext(line);
 		var result = sw.toString();
 
@@ -272,7 +274,7 @@ component
 	public void function testIntelligentQuotes() {
 		var line = ["1", "Foo", "With,Separator", "Line#LINE_SEPARATOR#Break", "Hello ""Foo Bar"" World", "Bar"];
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER);
 		csvw.writeNext(line, false);
 		var result = sw.toString();
 
@@ -289,7 +291,7 @@ component
 
 		var line = ["Foo", javaCast("null", ""), "Bar", "baz"];
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw);
 		csvw.writeNext(line);
 		var result = sw.toString();
 
@@ -303,7 +305,7 @@ component
 		var nextLine = ["aaaa", "bbbb", "cccc", "dddd"];
 
 		var fileWriter = createObject("java", "java.io.FileWriter").init(WRITE_FILE);
-		var writer = new cfboom.opencsv.CSVWriter(fileWriter);
+		var writer = getInstance( "CSVWriter@cfboomOpencsv" ).build(fileWriter);
 
 		writer.writeNext(nextLine);
 
@@ -314,7 +316,7 @@ component
 	public void function testAlternateEscapeChar() {
 		var line = ["Foo", "bar's"];
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.DEFAULT_QUOTE_CHARACTER, '''');
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.DEFAULT_QUOTE_CHARACTER, '''');
 		csvw.writeNext(line);
 		assertEquals("""Foo"",""bar''s""#LINE_SEPARATOR#", sw.toString());
 	}
@@ -322,7 +324,7 @@ component
 	public void function testEmbeddedQuoteInString() {
 		var line = ["Foo", "I choose a \""hero\"" for this adventure"];
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER);
 		csvw.writeNext(line);
 		assertEquals("""Foo"",""I choose a \""hero\"" for this adventure""#LINE_SEPARATOR#", sw.toString());
 	}
@@ -330,7 +332,7 @@ component
 	public void function testNoQuotingNoEscaping() {
 		var line = ["""Foo"",""Bar"""];
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER);
 		csvw.writeNext(line);
 		assertEquals("""Foo"",""Bar""#LINE_SEPARATOR#", sw.toString());
 	}
@@ -348,7 +350,7 @@ component
 			tempFile = File.createTempFile("csvWriterTest", ".csv");
 			tempFile.deleteOnExit();
 			fwriter = createObject("java", "java.io.FileWriter").init(tempFile);
-			writer = new cfboom.opencsv.CSVWriter(fwriter);
+			writer = getInstance( "CSVWriter@cfboomOpencsv" ).build(fwriter);
 		} catch (IOException e) {
 			fail();
 		}
@@ -396,7 +398,7 @@ component
 	public void function testAlternateLineFeeds() {
 		var line = ["Foo", "Bar", "baz"];
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.DEFAULT_QUOTE_CHARACTER, "\r");
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.DEFAULT_QUOTE_CHARACTER, "\r");
 		csvw.writeNext(line);
 		var result = sw.toString();
 
@@ -408,7 +410,7 @@ component
 		var value = ["v1", "v2", "v3"];
 
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw);
 
 		//ResultSet rs = MockResultSetBuilder.buildResultSet(header, value, 1);
 		var rs = queryNew("Foo,Bar,baz", "VarChar,VarChar,VarChar", [["v1", "v2", "v3"]]);
@@ -430,7 +432,7 @@ component
 		var value = ["v1", "v2", "v3"];
 
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw);
 
 		//ResultSet rs = MockResultSetBuilder.buildResultSet(header, value, 3);
 		var rs = queryNew("Foo,Bar,baz", "VarChar,VarChar,VarChar", [["v1", "v2", "v3"], ["v1", "v2", "v3"], ["v1", "v2", "v3"]]);
@@ -452,7 +454,7 @@ component
 		var value = ["v1", "v2", "v3"];
 
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw);
 
 		//ResultSet rs = MockResultSetBuilder.buildResultSet(header, value, 1);
 		var rs = queryNew("Foo,Bar,baz", "VarChar,VarChar,VarChar", [["v1", "v2", "v3"]]);
@@ -474,7 +476,7 @@ component
 		var value = ["v1", "v2", "v3"];
 
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw);
 
 		//ResultSet rs = MockResultSetBuilder.buildResultSet(header, value, 3);
 		var rs = queryNew("Foo,Bar,baz", "VarChar,VarChar,VarChar", [["v1", "v2", "v3"], ["v1", "v2", "v3"], ["v1", "v2", "v3"]]);
@@ -497,7 +499,7 @@ component
 		var value = ["v1         ", "v2 ", "v3"];
 
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw);
 
 		//ResultSet rs = MockResultSetBuilder.buildResultSet(header, value, 1);
 		var rs = queryNew("Foo,Bar,baz", "VarChar,VarChar,VarChar", [["v1         ", "v2 ", "v3"]]);
@@ -517,10 +519,10 @@ component
 
 	public void function testDBQueryWithHeaders() {
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw);
 
 		var queryService = new query();
-		queryService.setDatasource("jet_test");
+		queryService.setDatasource("cfboom_test");
 		queryService.setSql("SELECT `id`, `created_at`, `updated_at`, `is_deleted`, `name`, `weight`, `email`, `birthdate`, `steps_taken`, `points`, `range`, `kudos`, `external_id`, `brief_bio` FROM `users`;");
 		var rs = queryService.execute().getResult();
 
@@ -545,10 +547,10 @@ component
 
 	public void function testDBQueryWithoutHeaders() {
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw);
 
 		var queryService = new query();
-		queryService.setDatasource("jet_test");
+		queryService.setDatasource("cfboom_test");
 		queryService.setSql("SELECT `id`, `created_at`, `updated_at`, `is_deleted`, `name`, `weight`, `email`, `birthdate`, `steps_taken`, `points`, `range`, `kudos`, `external_id`, `brief_bio` FROM `users`;");
 		var rs = queryService.execute().getResult();
 
@@ -572,10 +574,10 @@ component
 
 	public void function testDBQueryTrim() {
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw);
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw);
 
 		var queryService = new query();
-		queryService.setDatasource("jet_test");
+		queryService.setDatasource("cfboom_test");
 		queryService.setSql("SELECT `id`, `created_at`, `updated_at`, `is_deleted`, `name`, `weight`, `email`, `birthdate`, `steps_taken`, `points`, `range`, `kudos`, `external_id`, `brief_bio` FROM `users`;");
 		var rs = queryService.execute().getResult();
 
@@ -605,7 +607,7 @@ component
 		var value = ["v1", "v2'v2a", "v3"];
 
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var csvw = new cfboom.opencsv.CSVWriter(sw, CSVWriter.DEFAULT_SEPARATOR, '\'', '\'');
+		var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw, CSVWriter.DEFAULT_SEPARATOR, '\'', '\'');
 		csvw.setResultService(createObject("java", "com.opencsv.ResultSetHelperService").init());
 
 		//ResultSet rs = MockResultSetBuilder.buildResultSet(header, value, 1);
@@ -628,7 +630,7 @@ component
 		arrayAppend(lines, header);
 		arrayAppend(lines, value);
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var writer = new cfboom.opencsv.CSVWriter(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER);
+		var writer = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER);
 		writer.writeAll(lines);
 
 		var result = sw.toString();
@@ -644,7 +646,7 @@ component
 		arrayAppend(lines, header);
 		arrayAppend(lines, value);
 		var sw = createObject("java", "java.io.StringWriter").init();
-		var writer = new cfboom.opencsv.CSVWriter(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, escapeCharacter);
+		var writer = getInstance( "CSVWriter@cfboomOpencsv" ).build(sw, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, escapeCharacter);
 		writer.writeAll(lines);
 
 		var result = sw.toString();
