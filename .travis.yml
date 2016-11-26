@@ -13,21 +13,21 @@ before_install:
   - sudo echo "deb http://downloads.ortussolutions.com/debs/noarch /" | sudo tee -a /etc/apt/sources.list.d/commandbox.list
   - sudo apt-get update && sudo apt-get install commandbox
   - mkdir modules
-  - mkdir modules/cfboom-http
-  - mv apidocs/  modules/cfboom-http/
-  - mv tests/ modules/cfboom-http/
-  - mv client/ modules/cfboom-http/
-  - mv message/ modules/cfboom-http/
-  - mv protocol/ modules/cfboom-http/
-  - mv box.json modules/cfboom-http/
-  - mv HttpMessage.cfc modules/cfboom-http/
-  - mv HttpRequest.cfc modules/cfboom-http/
-  - mv HttpResponse.cfc modules/cfboom-http/
-  - mv HttpStatus.cfc modules/cfboom-http/
-  - mv LICENSE modules/cfboom-http/
-  - mv ModuleConfig.cfc modules/cfboom-http/
-  - mv README.md modules/cfboom-http/
-  - mv RequestParam.cfc modules/cfboom-http/
+  - mkdir modules/cfboom-opencsv
+  - mv apidocs/  modules/cfboom-opencsv/
+  - mv tests/ modules/cfboom-opencsv/
+  - mv client/ modules/cfboom-opencsv/
+  - mv message/ modules/cfboom-opencsv/
+  - mv protocol/ modules/cfboom-opencsv/
+  - mv box.json modules/cfboom-opencsv/
+  - mv HttpMessage.cfc modules/cfboom-opencsv/
+  - mv HttpRequest.cfc modules/cfboom-opencsv/
+  - mv HttpResponse.cfc modules/cfboom-opencsv/
+  - mv HttpStatus.cfc modules/cfboom-opencsv/
+  - mv LICENSE modules/cfboom-opencsv/
+  - mv ModuleConfig.cfc modules/cfboom-opencsv/
+  - mv README.md modules/cfboom-opencsv/
+  - mv RequestParam.cfc modules/cfboom-opencsv/
 
 install:
   # create app 2x to ensure no time outs
@@ -48,12 +48,12 @@ before_script:
   - curl http://localhost:45123/
 
 script: > 
-    testResults="echo $(box testbox run runner=http://localhost:45123/modules/cfboom-http/tests/runner.cfm)";
+    testResults="echo $(box testbox run runner=http://localhost:45123/modules/cfboom-opencsv/tests/runner.cfm)";
     echo "$testResults";
     if grep -i "\[Failures: [1-9][0-9]\?[0-9]\?\]\|\[Errors: [1-9][0-9]\?[0-9]\?\]\|<t[^>]*>\|<b[^>]*>" <<< $testResults;  then exit 1; fi
 
 after_success:
-  - sudo sed -i "s/$RELEASE_PLACEHOLDER/${RELEASE_VERSION}/g;" 'modules/cfboom-http/box.json'
+  - sudo sed -i "s/$RELEASE_PLACEHOLDER/${RELEASE_VERSION}/g;" 'modules/cfboom-opencsv/box.json'
   - sleep 2
-  - sudo sed -i "s/$BUILD_PLACEHOLDER/${TRAVIS_BUILD_NUMBER}/g" 'modules/cfboom-http/box.json'
+  - sudo sed -i "s/$BUILD_PLACEHOLDER/${TRAVIS_BUILD_NUMBER}/g" 'modules/cfboom-opencsv/box.json'
   - sleep 2

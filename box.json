@@ -2,16 +2,16 @@
     "name":"<cfboom/> HTTP",
     "version":"1.0.0",
     "author":"Joel Tobey <joeltobey@gmail.com>",
-    "slug":"cfboom-http",
+    "slug":"cfboom-opencsv",
     "type":"modules",
-    "homepage":"https://github.com/joeltobey/cfboom-http",
-    "documentation":"https://github.com/joeltobey/cfboom-http/wiki",
+    "homepage":"https://github.com/joeltobey/cfboom-opencsv",
+    "documentation":"https://github.com/joeltobey/cfboom-opencsv/wiki",
     "repository":{
         "type":"git",
-        "url":"https://github.com/joeltobey/cfboom-http"
+        "url":"https://github.com/joeltobey/cfboom-opencsv"
     },
-    "location": "https://github.com/joeltobey/cfboom-http/releases/download/v1.0.0/cfboom-http-v1.0.0.zip",
-    "shortDescription":"The cfboom-http module provides solid, consistent HTTP request and response handling.",
+    "location": "https://github.com/joeltobey/cfboom-opencsv/releases/download/v1.0.0/cfboom-opencsv-v1.0.0.zip",
+    "shortDescription":"The cfboom-opencsv module provides solid, consistent HTTP request and response handling.",
     "license":[
         {
             "type":"Apache2",

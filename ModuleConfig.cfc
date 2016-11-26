@@ -22,8 +22,8 @@ component {
     // Module Properties
     this.title              = "cfboom HTTP";
     this.author             = "Joel Tobey";
-    this.webURL             = "https://github.com/joeltobey/cfboom-http";
-    this.description        = "The cfboom-http module provides solid, consistent HTTP request and response handling.";
+    this.webURL             = "https://github.com/joeltobey/cfboom-opencsv";
+    this.description        = "The cfboom-opencsv module provides solid, consistent HTTP request and response handling.";
     this.version            = "1.0.0";
     // If true, looks for views in the parent first, if not found, then in the module. Else vice-versa
     this.viewParentLookup   = true;
@@ -44,8 +44,8 @@ component {
 
         // module settings - stored in modules.name.settings
         settings = {
-            // The HttpRequestExecutor used by the BasicHttpClient by default
-            "httpRequestExecutor" = "cfboom.http.protocol.BasicHttpRequestExecutor"
+            // The default `Sanitizer` used when building a query
+            "defaultSanitizer" = "cfboom.opencsv.PassthroughSanitizer"
         };
 
         // Binder Mappings
@@ -71,12 +71,12 @@ component {
     private function parseParentSettings() {
         // Read parent application config
         var oConfig         = controller.getSetting( "ColdBoxConfig" );
-        var parentSettings  = oConfig.getPropertyMixin( "cfboomHttp", "variables", {} );
+        var parentSettings  = oConfig.getPropertyMixin( "cfboomOpencsv", "variables", {} );
         var configStruct    = controller.getConfigSettings();
-        var moduleSettings  = configStruct.modules['cfboom-http'].settings;
+        var moduleSettings  = configStruct.modules['cfboom-opencsv'].settings;
 
-        if (structKeyExists(parentSettings, "httpRequestExecutor") && len(parentSettings.httpRequestExecutor)) {
-            moduleSettings['httpRequestExecutor'] = parentSettings.httpRequestExecutor;
+        if (structKeyExists(parentSettings, "defaultSanitizer") && len(parentSettings.defaultSanitizer)) {
+            moduleSettings['defaultSanitizer'] = parentSettings.defaultSanitizer;
         }
     }
 

@@ -1,3 +1,22 @@
+/*
+ * Copyright 2016 Joel Tobey <joeltobey@gmail.com>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * A very simple CSV writier released under a commercial-friendly license.
+ */
 component
     extends="cfboom.lang.Object"
     displayname="Class CSVWriter"
@@ -63,7 +82,7 @@ component
      *                         to be applied to values which contain the separator, escape,
      *                         quote or new line characters.
      */
-    public any function writeAll(any allLines, boolean applyQuotesToAll = true, boolean includeColumnNames = true, boolean trim = false, boolean nullToNotSet = false, boolean convertToUTC = true) {
+    public any function writeAll(any allLines, boolean applyQuotesToAll = true, boolean includeColumnNames = true, boolean trim = false, boolean nullToNotSet = false, boolean convertToUTC = true, string booleanFormat = "true") {
         if (!structKeyExists(arguments, "allLines")) {
             _instance.CSVWriter.writeAll(javaCast("null", ""), javaCast("boolean", arguments.applyQuotesToAll));
         } else if (isArray(arguments.allLines)) {
@@ -99,7 +118,7 @@ component
                 for (var meta in qMeta) {
                     idx++;
                     if (structKeyExists(meta, "typeName") && structKeyExists(meta, "name") && structKeyExists(nextLine, meta.name)) {
-                        dataArray[idx] = formatQueryData( nextLine[meta.name], meta.typeName, arguments.trim, arguments.nullToNotSet, arguments.convertToUTC );
+                        dataArray[idx] = formatQueryData( nextLine[meta.name], meta.typeName, arguments.trim, arguments.nullToNotSet, arguments.convertToUTC, arguments.booleanFormat );
                     } else {
                         if (arguments.nullToNotSet && structKeyExists(meta, "typeName") && listFindNoCase("varchar", meta.typeName)) {
                             dataArray[idx] = "(not set)";
@@ -117,7 +136,7 @@ component
         }
     }
 
-    private string function formatQueryData(required any data, required string type, boolean trim = false, boolean nullToNotSet = false, boolean convertToUTC = true) {
+    private string function formatQueryData(required any data, required string type, boolean trim = false, boolean nullToNotSet = false, boolean convertToUTC = true, string booleanFormat = "true") {
         if (lCase(arguments.type) == "date" && len(trim(arguments.data))) {
             arguments.data = dateFormat(arguments.data, "yyyy-mm-dd");
         } else if (lCase(arguments.type) == "time" && len(trim(arguments.data))) {
@@ -130,6 +149,30 @@ component
             }
             if (arguments.nullToNotSet && arguments.type == "varchar" && !len(arguments.data)) {
                 arguments.data = "(not set)";
+            }
+        } else if (listFindNoCase("longvarbinary,varbinary,binary", arguments.type)) {
+            arguments.data = toString( arguments.data );
+        } else if (lCase(arguments.type) == "bit") {
+            if (arguments.data) {
+                if (lCase(arguments.booleanFormat) == "true") {
+                    arguments.data = "true";
+                } else if (lCase(arguments.booleanFormat) == "yes") {
+                    arguments.data = "Yes";
+                } else if (lCase(arguments.booleanFormat) == "on") {
+                    arguments.data = "On";
+                } else {
+                    arguments.data = "true";
+                }
+            } else {
+                if (lCase(arguments.booleanFormat) == "true") {
+                    arguments.data = "false";
+                } else if (lCase(arguments.booleanFormat) == "yes") {
+                    arguments.data = "No";
+                } else if (lCase(arguments.booleanFormat) == "on") {
+                    arguments.data = "Off";
+                } else {
+                    arguments.data = "false";
+                }
             }
         }
         return arguments.data.toString();
@@ -176,7 +219,7 @@ component
     public any function processLine(string nextElement) {
         return _instance.CSVWriter.processLine(arguments.nextElement);
     }
-    
+
     /**
      * Flush underlying stream to writer.
      *

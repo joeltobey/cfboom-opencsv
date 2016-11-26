@@ -1,13 +1,13 @@
-[![Build Status](https://api.travis-ci.org/joeltobey/cfboom-http.svg?branch=development)](https://travis-ci.org/joeltobey/cfboom-http)
+[![Build Status](https://api.travis-ci.org/joeltobey/cfboom-opencsv.svg?branch=development)](https://travis-ci.org/joeltobey/cfboom-opencsv)
 
 # WELCOME TO THE CFBOOM HTTP COLDBOX MODULE
-The cfboom-http module provides solid, consistent HTTP request and response handling.
+The cfboom-opencsv module provides solid, consistent HTTP request and response handling.
 
 ##LICENSE
 Apache License, Version 2.0.
 
 ##IMPORTANT LINKS
-- https://github.com/joeltobey/cfboom-http/wiki
+- https://github.com/joeltobey/cfboom-opencsv/wiki
 
 ##SYSTEM REQUIREMENTS
 - Lucee 4.5+
@@ -16,7 +16,7 @@ Apache License, Version 2.0.
 # INSTRUCTIONS
 Just drop into your **modules** folder or use CommandBox to install
 
-`box install cfboom-http`
+`box install cfboom-opencsv`
 
 ## WireBox Mappings
 The module registers the BasicHttpClient: `BasicHttpClient@cfboomHttp` that executes all of your HTTP requests. Check out the API Docs for all the possible functions.

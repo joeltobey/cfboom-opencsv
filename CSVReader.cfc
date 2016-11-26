@@ -1,12 +1,36 @@
+/*
+ * Copyright 2016 Joel Tobey <joeltobey@gmail.com>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * A very simple CSV reader released under a commercial-friendly license.
+ */
 component
     extends="cfboom.lang.Object"
     displayname="Class CSVReader"
     output="false"
 {
     property name="javaLoader" inject="loader@cbjavaloader";
+    property name="defaultSanitizer" inject="coldbox:setting:defaultSanitizer@cfboom-opencsv";
 
     public cfboom.opencsv.CSVReader function init() {
         return this;
+    }
+
+    public void function onDIComplete() {
+        withSanitizer( new "#defaultSanitizer#"() );
     }
 
     public cfboom.opencsv.CSVReader function load( string csv, any reader ) {
@@ -20,6 +44,17 @@ component
         } else {
             throw("Can't load CSVReader. Must have either 'csv' or 'reader'");
         }
+        return this;
+    }
+
+    /**
+     * Sets the `Sanitizer` to use while building a query
+     *
+     * @param separator the delimiter to use for separating entries (char)
+     * @return The CSVReader
+     */
+    public cfboom.opencsv.CSVReader function withSanitizer(required cfboom.opencsv.Sanitizer sanitizer) {
+        _instance['sanitizer'] = arguments.sanitizer;
         return this;
     }
 
@@ -148,5 +183,91 @@ component
         var parser = _instance.CSVParserBuilder.build();
         _instance.CSVReaderBuilder.withCSVParser(parser);
         return _instance.CSVReaderBuilder.build();
+    }
+
+    /**
+     * Creates a query from the CSV data.
+     * @return a query based on the set criteria in CSVReaderBuilder.
+     */
+    public query function buildQuery(array columns = [], boolean firstRowIsColumnList = true) {
+        if (!arguments.firstRowIsColumnList && arrayIsEmpty(arguments.columns))
+            throw("Must provide 'columns' if 'firstRowIsColumnList' is false");
+
+        var columnList = "";
+        var columnTypeList = "";
+        var queryInitialized = false;
+
+        var parser = _instance.CSVParserBuilder.build();
+        _instance.CSVReaderBuilder.withCSVParser(parser);
+        var csvr = _instance.CSVReaderBuilder.build();
+        var it = csvr.iterator();
+
+        if (arguments.firstRowIsColumnList && it.hasNext()) {
+            var columnListRow = it.next();
+            if (arrayIsEmpty(arguments.columns)) {
+                // Only use first row for column list if not provided explicitly.
+                for (var columnName in columnListRow) {
+                    var column = {"name":columnName};
+                    arrayAppend(arguments.columns, column);
+                }
+            }
+        }
+
+        if (arrayIsEmpty(arguments.columns))
+            throw(object=creatObject("java", "java.lang.IllegalStateException").init("'columns' should have column list names at this point"));
+
+        while(it.hasNext()) {
+            var dataArray = it.next();
+
+            // We initialize the query here so we can parse the column types from the data if necessary.
+            if (!queryInitialized) {
+
+                // One use first row of data to determine the column type if not provided explicitly
+                if (!structKeyExists(arguments.columns[1], "type")) {
+                    for (var i = 1; i <= arrayLen(arguments.columns); i++) {
+                        var column = arguments.columns[i];
+                        try {
+                            column['type'] = parseType( dataArray[i] );
+                        } catch (expression ex) {
+                            // If cell is empty/null, then we default to 'VarChar'.
+                            column['type'] = "VarChar";
+                        }
+                    }
+                }
+                for (var column in arguments.columns) {
+                    columnList = listAppend(columnList, column.name);
+                    columnTypeList = listAppend(columnTypeList, column.type);
+                }
+                var dataQuery = queryNew(columnList, columnTypeList);
+                queryInitialized = true;
+            }
+            queryAddRow(dataQuery);
+            for (var i = 1; i <= arrayLen(arguments.columns); i++) {
+                try {
+                    querySetCell(dataQuery, arguments.columns[i].name, _instance.sanitizer.sanatize( dataArray[i], arguments.columns[i] ));
+                } catch (expression ex) {
+                    // Ignore empty/null fields
+                }
+            }
+        }
+        return dataQuery;
+    }
+
+    private string function parseType( required any data ) {
+        var type = "VarChar"; // Default
+        if (isBinary( arguments.data )) {
+            type = "Binary";
+        } else if (isDate( arguments.data )) {
+            type = "Timestamp";
+        } else if (isNumeric( arguments.data )) {
+            if (isValid("integer", arguments.data)) {
+                type = "Integer";
+            } else {
+                type = "Double";
+            }
+        } else if (isBoolean( arguments.data )) {
+            type = "Bit";
+        }
+        return type;
     }
 }
