@@ -8,7 +8,7 @@
     action="updateDatasource"
     type="web"
     password="J5HIsmsWk26"
-    classname="com.mysql.jdbc.Driver"
+    classname="org.gjt.mm.mysql.Driver"
     dsn="jdbc:mysql://{host}:{port}/{database}"
     name="cfboom_test"
     newName="cfboom_test"

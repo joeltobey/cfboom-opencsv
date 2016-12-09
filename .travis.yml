@@ -55,7 +55,7 @@ install:
 before_script:
   - curl http://localhost:45123/
   - curl --data "new_password=J5HIsmsWk26&new_password_re=J5HIsmsWk26&lang=en&rememberMe=s&submit=submit" http://localhost:45123/lucee/admin/web.cfm
-  - box modules/cfboom-opencsv/tests/travis_db.cfm
+  - curl http://localhost:45123/modules/cfboom-opencsv/tests/travis_db.cfm
 
 script: > 
     testResults="echo $(box testbox run runner=http://localhost:45123/modules/cfboom-opencsv/tests/runner.cfm)";
