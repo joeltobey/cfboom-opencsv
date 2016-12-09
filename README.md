@@ -1,67 +1,61 @@
 [![Build Status](https://api.travis-ci.org/joeltobey/cfboom-opencsv.svg?branch=development)](https://travis-ci.org/joeltobey/cfboom-opencsv)
 
-# WELCOME TO THE CFBOOM HTTP COLDBOX MODULE
-The cfboom-opencsv module provides solid, consistent HTTP request and response handling.
+# Welcome to the cfboom HTTP Coldbox Module
+The cfboom-opencsv module provides a wrapper facade to the opencsv project (http://opencsv.sourceforge.net).
 
-##LICENSE
+## License
 Apache License, Version 2.0.
 
-##IMPORTANT LINKS
+## Important Links
 - https://github.com/joeltobey/cfboom-opencsv/wiki
 
-##SYSTEM REQUIREMENTS
+## System Requirements
 - Lucee 4.5+
 - ColdFusion 9+
 
-# INSTRUCTIONS
+# Instructions
 Just drop into your **modules** folder or use CommandBox to install
 
 `box install cfboom-opencsv`
 
 ## WireBox Mappings
-The module registers the BasicHttpClient: `BasicHttpClient@cfboomHttp` that executes all of your HTTP requests. Check out the API Docs for all the possible functions.
+The module registers the CSVReader: `CSVReader@cfboomOpencsv` and CSVWriter: `CSVWriter@cfboomOpencsv` that allows you to read and write CSV data. Check out the API Docs for all the possible functions.
 
 ## Settings
-There's an optional setting in your `ColdBox.cfc` file under a `cfboomHttp` struct to override the default `HttpRequestExecutor`:
+There's an optional setting in your `ColdBox.cfc` file under a `cfboomOpencsv` struct to override the default `HttpRequestExecutor`:
 
 ```js
-cfboomHttp = {
+cfboomOpencsv = {
     /**
-     * The HttpRequestExecutor used by the BasicHttpClient by default.
-     * It must implement cfboom.http.protocol.HttpRequestExecutor.
-     * The default is [cfboom.http.protocol.BasicHttpRequestExecutor]
+     * The default `Sanitizer` used when building a query.
+     * It must implement cfboom.opencsv.Sanitizer.
+     * The default is [cfboom.opencsv.PassthroughSanitizer]
      */
-    httpRequestExecutor = "cfboom.http.protocol.HttpRequestExecutor"
+    defaultSanitizer = "cfboom.opencsv.Sanitizer"
 };
 ```
 
-## HttpClient Methods
+## CSVReader Methods
 
 Once you have an instance of the `HttpClient`, you can call these methods:
 
 ```
-#getInstance( "BasicHttpClient@cfboomHttp" ).get( string uri )#
-#getInstance( "BasicHttpClient@cfboomHttp" ).execute( cfboom.http.HttpRequest req )#
-#getInstance( "BasicHttpClient@cfboomHttp" ).setExecutor( cfboom.http.protocol.HttpRequestExecutor executor )#
+var csvr = getInstance( "CSVReader@cfboomOpencsv" ).load( csvData ).build();
 ```
 
-## HttpRequest Methods
+## CSVWriter Methods
 
 ```
-var req = new cfboom.http.message.BasicHttpRequest("PUT", "https://api.foo.com");
-req.addQueryParam("id", 123); // Same as ?id=123
-req.addFormField("submit", "true");
-req.addBody('{"data":"foo"}'); // Set the request body/payload (i.e. JSON, XML, Text, etc)
-req.addHeader("Content-Type", "application/json");
+var sw = createObject("java", "java.io.StringWriter").init();
+var cArgs = {};
+cArgs.writer = sw;
+cArgs.separator = ",";
+cArgs.quotechar = "'";
+var csvw = getInstance( "CSVWriter@cfboomOpencsv" ).build(argumentCollection:cArgs);
+csvw.writeNext(args);
+return sw.toString();
 ```
 
-## RequestParam Methods
+## Testing
 
-You can build your own request parameter with the `RequestParam`.
-
-```
-var rp = new cfboom.http.RequestParam( "myFile" );
-rp.setFile( expandPath("path/to/file.txt") );
-var req = new cfboom.http.message.BasicHttpRequest("POST", "https://api.foo.com");
-req.addParam( rp );
-```
+For testing, you'll need to create a MySQL datasource named 'cfboom_test' using the tests/resources/Dump_All_Types.sql script.

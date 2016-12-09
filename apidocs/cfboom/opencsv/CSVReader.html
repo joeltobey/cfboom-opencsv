@@ -1,0 +1,1560 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>CSVReader</title>
+	<meta name="keywords" content="cfboom.opencsv.concurrent.Callable interface">
+	<!-- common assets -->
+	
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel ="stylesheet" type="text/css" href="../../bootstrap/css/bootstrap.min.css">
+<link rel ="stylesheet" type="text/css" href="../../stylesheet.css">
+	
+<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300,300italic,400italic,700,700italic|Ubuntu+Mono' rel='stylesheet' type='text/css' />
+	
+<script src="../../bootstrap/js/jquery-2.1.0.min.js" type="text/javascript"></script>
+<script src="../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+<script>
+$(document).ready(function() {
+	// Global Tool Tip Settings
+	$( '[title]' ).tooltip({
+		 animation: 'slide',
+		 delay: { show: 250, hide: 250 }
+	});
+});
+</script>
+	<!-- syntax highlighter -->
+	<link type="text/css" rel="stylesheet" href="../../highlighter/styles/shCoreDefault.css">
+	<script src="../../highlighter/scripts/shCore.js"></script>
+	<script src="../../highlighter/scripts/shBrushColdFusion.js"></script>
+	<script src="../../highlighter/scripts/shBrushXml.js"></script>
+	<script src="../../highlighter/scripts/shBrushSql.js"></script>
+	<script src="../../highlighter/scripts/shBrushJScript.js"></script>
+	<script src="../../highlighter/scripts/shBrushJava.js"></script>
+	<script src="../../highlighter/scripts/shBrushCss.js"></script>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+
+<body class="withNavbar">
+
+
+
+
+
+
+<!-- ========= START OF NAVBAR ======= -->
+<a name="navbar_top"></a>
+<a href="#skip-navbar_top" title="skip navigation links"></a>	
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+    
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#class-navigation">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#"><strong>&ltcfboom/&gt opencsv</strong></a>
+		</div>
+
+	    <div class="collapse navbar-collapse" id="class-navigation">
+	    	<ul class="nav navbar-nav">
+				
+					
+					<li><a href="../../overview-summary.html"><i class="glyphicon glyphicon-plane"></i> overview</a></li>
+					
+				
+
+				
+					<li><a href="package-summary.html"><i class="glyphicon glyphicon-folder-open"></i> &nbsp;package</a></li>
+				
+
+			  	
+					<li class="dropdown active">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-file"></i> class <b class="caret"></b></a>
+
+						<ul class="dropdown-menu">
+							<li><a href="#class">Class Definition</a></li>
+							<li><a href="#constructor_summary">Constructor Summary</a></li>
+							<li><a href="#constructor_detail">Constructor Detail</a></li>
+							<li><a href="#inherited_methods">Inherited Methods</a></li>
+							<li><a href="#method_summary">Method Summary</a></li>
+							<li><a href="#method_detail">Method Detail</a></li>
+							<li><a href="#property_summary">Property Summary</a></li>
+							<li><a href="#property_detail">Property Detail</a></li>
+							
+						</ul>
+					</li>
+				
+	      	</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="../../index.html?cfboom/opencsv/CSVReader.html" target="_top">
+					<i class="glyphicon glyphicon-fullscreen"></i> Frames
+					</a>
+				</li>
+			</ul>
+	    </div>
+
+	</div>
+</nav>	
+
+<a name="skip-navbar_top"></a>
+<!-- ========= END OF NAVBAR ========= -->
+
+<!-- ======== start of class data ======== -->
+<a name="class"><!-- --></a>
+
+<!-- Package -->
+<div class="pull-right">
+	<a href="package-summary.html" title="Package: cfboom.opencsv"><span class="label label-success">cfboom.opencsv</span></a>
+</div>
+
+<h2>
+
+
+Class
+
+ CSVReader</h2>
+
+
+
+
+
+
+
+
+	
+		
+	
+	
+
+	
+		
+		
+			
+		
+	
+	
+
+	
+		
+		
+			
+		
+	
+	
+
+
+<!-- Inheritance Tree-->
+<pre style="background:white">lucee.Component
+    <img src="../../resources/inherit.gif" alt="extended by ">cfboom.lang.Object
+      <img src="../../resources/inherit.gif" alt="extended by ">cfboom.opencsv.CSVReader
+</pre>
+
+
+
+	
+	
+
+
+
+
+
+
+
+<div id="class-hint">
+	<p>A very simple CSV reader released under a commercial-friendly license.</p>
+</div>
+
+
+<!-- Clas Attributes -->
+<div class="panel panel-info">
+	<div class="panel-heading"><strong>Class Attributes:</strong></div>
+		<div class="panel-body">
+		
+		
+			
+		
+			
+		
+			
+			
+			<li class="label label-danger label-annotations">
+				output 
+				
+				: false		
+				
+			</li>
+			&nbsp;
+			
+		
+			
+		
+			
+			
+			<li class="label label-danger label-annotations">
+				displayname 
+				
+				: Class CSVReader		
+				
+			</li>
+			&nbsp;
+			
+		
+			
+			
+			<li class="label label-danger label-annotations">
+				synchronized 
+				
+				: false		
+				
+			</li>
+			&nbsp;
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+			
+			<li class="label label-danger label-annotations">
+				accessors 
+				
+				: false		
+				
+			</li>
+			&nbsp;
+			
+		
+			
+		
+			
+			
+			<li class="label label-danger label-annotations">
+				persistent 
+				
+				: false		
+				
+			</li>
+			&nbsp;
+			
+		
+			
+		
+			
+		
+		
+	</div>
+</div>
+
+
+
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<a name="property_summary"><!-- --></a>
+<table class="table table-bordered table-hover">
+	<tr class="info">
+		<th align="left" colspan="5">
+			<strong>Property Summary</strong>
+		</th>
+	</tr>
+	<tr class="info">
+		<th align="left">
+			<strong>type</strong>
+		</th>
+		<th align="left">
+			<strong>property</strong>
+		</th>
+		<th align="left">
+			<strong>default</strong>
+		</th>
+		<th align="left">
+			<strong>serializable</strong>
+		</th>
+		<th align="left">
+			<strong>required</strong>
+		</th>
+	</tr>
+
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code>any</code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#defaultSanitizer()">defaultSanitizer</A></strong> 
+			<br>
+			
+			<br><br>
+			<ul>
+			
+				
+			
+				
+				<li class="label label-default label-annotations">access = public</li>
+				
+			
+				
+			
+				
+			
+				
+				<li class="label label-default label-annotations">returntype = any</li>
+				
+			
+				
+				<li class="label label-default label-annotations">inject = coldbox:setting:defaultSanitizer@cfboom-opencsv</li>
+				
+			
+				
+			
+				
+			
+				
+			
+			</ul>
+
+		</td>
+		<td align="right" valign="top" width="1%">
+			
+		</td>
+		<td align="right" valign="top" width="1%">
+			<code>
+				true
+			</code>
+		</td>
+		<td align="right" valign="top" width="1%">
+			<code>
+				false
+			</code>
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code>any</code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#javaLoader()">javaLoader</A></strong> 
+			<br>
+			
+			<br><br>
+			<ul>
+			
+				
+			
+				
+				<li class="label label-default label-annotations">access = public</li>
+				
+			
+				
+			
+				
+			
+				
+				<li class="label label-default label-annotations">returntype = any</li>
+				
+			
+				
+				<li class="label label-default label-annotations">inject = loader@cbjavaloader</li>
+				
+			
+				
+			
+				
+			
+				
+			
+			</ul>
+
+		</td>
+		<td align="right" valign="top" width="1%">
+			
+		</td>
+		<td align="right" valign="top" width="1%">
+			<code>
+				true
+			</code>
+		</td>
+		<td align="right" valign="top" width="1%">
+			<code>
+				false
+			</code>
+		</td>
+	</tr>
+	
+	</tr>
+</table>
+
+
+
+	
+	
+	<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+	<a name="constructor_summary"><!-- --></a>
+	<table class="table table-bordered table-hover">
+		<tr class="info">
+			<th align="left" colspan="2">
+				<strong>Constructor Summary</strong>
+			</th>
+		</tr>
+		<tr>
+			
+			<td>
+				<strong><a href="CSVReader.html#init()">init</A></strong>()
+				<br>
+				
+			</td>
+		</tr>
+	</table>
+
+
+
+
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<a name="method_summary"><!-- --></a>
+<table class="table table-bordered table-hover">
+	<tr class="info">
+		<th align="left" colspan="2">
+			<strong>Method Summary</strong>
+		</th>
+	</tr>
+
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code>any</code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#build()">build</A></strong>()
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the CSVReader.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code>query</code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#buildQuery()">buildQuery</A></strong>([array columns='[runtime expression]'], [boolean firstRowIsColumnList='true'])
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a query from the CSV data.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#load()">load</A></strong>([string csv], [any reader])
+			<br>
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code>void</code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#onDIComplete()">onDIComplete</A></strong>()
+			<br>
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code>private&nbsp;string</code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#parseType()">parseType</A></strong>(any data)
+			<br>
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#withEscapeChar()">withEscapeChar</A></strong>([any escapeChar])
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the character to use for escaping a separator or quote.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#withFieldAsNull()">withFieldAsNull</A></strong>([any fieldIndicator])
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the NullFieldIndicator.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#withIgnoreLeadingWhiteSpace()">withIgnoreLeadingWhiteSpace</A></strong>([boolean ignoreLeadingWhiteSpace])
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the ignore leading whitespace setting - if true, white space.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#withIgnoreQuotations()">withIgnoreQuotations</A></strong>([boolean ignoreQuotations])
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the ignore quotations mode - if true, quotations are ignored.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#withKeepCarriageReturn()">withKeepCarriageReturn</A></strong>([boolean keepCR])
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets if the reader will keep or discard carriage returns.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#withQuoteChar()">withQuoteChar</A></strong>([any quoteChar])
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the character to use for quoted elements.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#withSanitizer()">withSanitizer</A></strong>(<a href="../../cfboom/opencsv/Sanitizer.html" title="interface in cfboom.opencsv">Sanitizer</a> sanitizer)
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the `Sanitizer` to use while building a query.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#withSeparator()">withSeparator</A></strong>([any separator])
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the delimiter to use for separating entries.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#withSkipLines()">withSkipLines</A></strong>([numeric skipLines])
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the line number to skip for start reading.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#withStrictQuotes()">withStrictQuotes</A></strong>([boolean strictQuotes])
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the strict quotes setting - if true, characters.
+			
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="right" valign="top" width="1%">
+			<code><a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a></code>
+		</td>
+		<td>
+			<strong><a href="CSVReader.html#withVerifyReader()">withVerifyReader</A></strong>([boolean verifyReader])
+			<br>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks to see if the CSVReader should verify the reader state before reads or not.
+			
+		</td>
+	</tr>
+	
+</table>
+
+
+
+<a name="inherited_methods"><!-- --></a>
+
+
+	
+
+	
+
+	&nbsp;
+	<a name="methods_inherited_from_class_cfboom.lang.Object"><!-- --></a>
+	<table class="table table-hover table-bordered">
+		<tr class="info">
+			<th align="left">
+				<strong>Methods inherited from class <kbd>cfboom.lang.Object</kbd></strong>
+			</th>
+		</tr>
+		<tr>
+			<td>
+				
+				
+				
+					
+					
+					
+					
+					
+					
+				
+					
+					
+					
+						
+					
+					
+					
+					
+				
+					
+					
+					
+						
+					
+					
+					
+					
+				
+					
+					
+					
+						
+					
+					
+					
+					
+				
+					
+					
+					
+						
+					
+					
+					
+					
+				
+					
+					
+					
+						
+					
+					
+					
+					
+				
+					
+					
+				
+					
+					
+					
+						
+					
+					
+					
+					
+				
+				
+				
+					<a href="../../cfboom/lang/Object.html#$equals()">$equals</a>, <a href="../../cfboom/lang/Object.html#getComponentName()">getComponentName</a>, <a href="../../cfboom/lang/Object.html#getIdentityHashCode()">getIdentityHashCode</a>, <a href="../../cfboom/lang/Object.html#getIdentityString()">getIdentityString</a>, <a href="../../cfboom/lang/Object.html#getMeta()">getMeta</a>, <a href="../../cfboom/lang/Object.html#hashCode()">hashCode</a>, <a href="../../cfboom/lang/Object.html#toString()">toString</a>
+				
+			</td>
+		</tr>
+	</table>
+
+	
+
+	
+
+	&nbsp;
+	<a name="methods_inherited_from_class_lucee.Component"><!-- --></a>
+	<table class="table table-hover table-bordered">
+		<tr class="info">
+			<th align="left">
+				<strong>Methods inherited from class <kbd>lucee.Component</kbd></strong>
+			</th>
+		</tr>
+		<tr>
+			<td>
+				
+				
+				
+				
+				
+					<span class="label label-warning"><em>None</em></span>
+				
+			</td>
+		</tr>
+	</table>
+
+
+<hr>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+	<a name="constructor_detail"><!-- --></a>
+	<table class="table table-bordered">
+		<tr class="info">
+			<th colspan="1" align="left">
+				<strong>Constructor Detail</strong>
+			</th>
+		</tr>
+	</table>
+
+	<a name="init()"><!-- --></a><h3>
+	init</h3>
+	<kbd>public <strong>init</strong>()</kbd>
+
+	<br><br>
+
+	
+	<p></p>
+	
+
+	
+	<hr>
+
+
+<!-- ============ PROPERTY DETAIL ========== -->
+
+	<a name="property_detail"><!-- --></a>
+	<table class="table table-bordered">
+		<tr class="info">
+			<th colspan="1" align="left">
+				<strong>Property Detail</strong>
+			</th>
+		</tr>
+	</table>
+
+	
+		
+		<a name="defaultSanitizer()"><!-- --></a>
+		<h3>defaultSanitizer</h3>
+
+		<kbd>
+			property any 
+			<strong>defaultSanitizer</strong>
+			
+		</kbd>
+
+		<br><br>
+		
+
+		<dl>
+		<dt><strong>Attributes:</strong></dt>
+		
+			
+		
+			
+			<dd><code>access</code> - public</dd>
+			
+		
+			
+			<dd><code>required</code> - false</dd>
+			
+		
+			
+		
+			
+			<dd><code>returntype</code> - any</dd>
+			
+		
+			
+			<dd><code>inject</code> - coldbox:setting:defaultSanitizer@cfboom-opencsv</dd>
+			
+		
+			
+		
+			
+		
+			
+			<dd><code>serializable</code> - true</dd>
+			
+		
+		</dl>
+
+		<hr>
+	
+		
+		<a name="javaLoader()"><!-- --></a>
+		<h3>javaLoader</h3>
+
+		<kbd>
+			property any 
+			<strong>javaLoader</strong>
+			
+		</kbd>
+
+		<br><br>
+		
+
+		<dl>
+		<dt><strong>Attributes:</strong></dt>
+		
+			
+		
+			
+			<dd><code>access</code> - public</dd>
+			
+		
+			
+			<dd><code>required</code> - false</dd>
+			
+		
+			
+		
+			
+			<dd><code>returntype</code> - any</dd>
+			
+		
+			
+			<dd><code>inject</code> - loader@cbjavaloader</dd>
+			
+		
+			
+		
+			
+		
+			
+			<dd><code>serializable</code> - true</dd>
+			
+		
+		</dl>
+
+		<hr>
+	
+
+
+
+
+
+
+
+
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<a name="method_detail"><!-- --></a>
+<table class="table table-bordered">
+	<tr class="info">
+		<th colspan="1" align="left">
+			<strong>Method Detail</strong>
+		</th>
+	</tr>
+</table>
+
+
+	
+	<a name="build()"><!-- --></a>
+	<h3>build</h3>
+	
+	<kbd>public any <strong>build</strong>()</kbd>
+	
+	<br><br>
+
+	
+		<p>Creates the CSVReader.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>the CSVReader based on the set criteria.</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="buildQuery()"><!-- --></a>
+	<h3>buildQuery</h3>
+	
+	<kbd>public query <strong>buildQuery</strong>([array columns='[runtime expression]'], [boolean firstRowIsColumnList='true'])</kbd>
+	
+	<br><br>
+
+	
+		<p>Creates a query from the CSV data.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>columns</code></dd>
+		
+		<dd><code>firstRowIsColumnList</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>a query based on the set criteria in CSVReaderBuilder.</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="load()"><!-- --></a>
+	<h3>load</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>load</strong>([string csv], [any reader])</kbd>
+	
+	<br><br>
+
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>csv</code></dd>
+		
+		<dd><code>reader</code></dd>
+		
+		</dl>
+	
+
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="onDIComplete()"><!-- --></a>
+	<h3>onDIComplete</h3>
+	
+	<kbd>public void <strong>onDIComplete</strong>()</kbd>
+	
+	<br><br>
+
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="parseType()"><!-- --></a>
+	<h3>parseType</h3>
+	
+	<kbd>private string <strong>parseType</strong>(any data)</kbd>
+	
+	<br><br>
+
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>data</code></dd>
+		
+		</dl>
+	
+
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="withEscapeChar()"><!-- --></a>
+	<h3>withEscapeChar</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>withEscapeChar</strong>([any escapeChar])</kbd>
+	
+	<br><br>
+
+	
+		<p>Sets the character to use for escaping a separator or quote.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>escapeChar</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>The CSVReader</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="withFieldAsNull()"><!-- --></a>
+	<h3>withFieldAsNull</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>withFieldAsNull</strong>([any fieldIndicator])</kbd>
+	
+	<br><br>
+
+	
+		<p>Sets the NullFieldIndicator.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>fieldIndicator</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>- The CSVParserBuilder</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="withIgnoreLeadingWhiteSpace()"><!-- --></a>
+	<h3>withIgnoreLeadingWhiteSpace</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>withIgnoreLeadingWhiteSpace</strong>([boolean ignoreLeadingWhiteSpace])</kbd>
+	
+	<br><br>
+
+	
+		<p>Sets the ignore leading whitespace setting - if true, white space
+in front of a quote in a field is ignored.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>ignoreLeadingWhiteSpace</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>The CSVReader</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="withIgnoreQuotations()"><!-- --></a>
+	<h3>withIgnoreQuotations</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>withIgnoreQuotations</strong>([boolean ignoreQuotations])</kbd>
+	
+	<br><br>
+
+	
+		<p>Sets the ignore quotations mode - if true, quotations are ignored.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>ignoreQuotations</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>The CSVReader</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="withKeepCarriageReturn()"><!-- --></a>
+	<h3>withKeepCarriageReturn</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>withKeepCarriageReturn</strong>([boolean keepCR])</kbd>
+	
+	<br><br>
+
+	
+		<p>Sets if the reader will keep or discard carriage returns.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>keepCR</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>the CSVReaderBuilder based on the set criteria.</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="withQuoteChar()"><!-- --></a>
+	<h3>withQuoteChar</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>withQuoteChar</strong>([any quoteChar])</kbd>
+	
+	<br><br>
+
+	
+		<p>Sets the character to use for quoted elements.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>quoteChar</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>The CSVReader</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="withSanitizer()"><!-- --></a>
+	<h3>withSanitizer</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>withSanitizer</strong>(<a href="../../cfboom/opencsv/Sanitizer.html" title="interface in cfboom.opencsv">Sanitizer</a> sanitizer)</kbd>
+	
+	<br><br>
+
+	
+		<p>Sets the `Sanitizer` to use while building a query</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>sanitizer</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>The CSVReader</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="withSeparator()"><!-- --></a>
+	<h3>withSeparator</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>withSeparator</strong>([any separator])</kbd>
+	
+	<br><br>
+
+	
+		<p>Sets the delimiter to use for separating entries.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>separator</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>The CSVReader</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="withSkipLines()"><!-- --></a>
+	<h3>withSkipLines</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>withSkipLines</strong>([numeric skipLines])</kbd>
+	
+	<br><br>
+
+	
+		<p>Sets the line number to skip for start reading.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>skipLines</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>the CSVReaderBuilder with skipLines set.</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="withStrictQuotes()"><!-- --></a>
+	<h3>withStrictQuotes</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>withStrictQuotes</strong>([boolean strictQuotes])</kbd>
+	
+	<br><br>
+
+	
+		<p>Sets the strict quotes setting - if true, characters
+outside the quotes are ignored.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>strictQuotes</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>The CSVReader</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+	
+	<a name="withVerifyReader()"><!-- --></a>
+	<h3>withVerifyReader</h3>
+	
+	<kbd>public <a href="../../cfboom/opencsv/CSVReader.html" title="class in cfboom.opencsv">CSVReader</a> <strong>withVerifyReader</strong>([boolean verifyReader])</kbd>
+	
+	<br><br>
+
+	
+		<p>Checks to see if the CSVReader should verify the reader state before reads or not.
+This should be set to false if you are using some form of asynchronous reader (like readers created
+by the java.nio.* classes).
+The default value is true.</p>
+	
+
+	
+		
+		
+	
+
+	
+	
+
+	
+		<dl>
+		<dt><strong>Parameters:</strong></dt>
+		
+		<dd><code>verifyReader</code></dd>
+		
+		</dl>
+	
+
+	
+		<dl>
+			<dt><strong>Returns:</strong></dt>
+			<dd>The CSVReaderBuilder based on this criteria.</dd>
+		</dl>
+	
+
+	</dl>
+	<hr>
+
+
+
+
+</body>
+</html>
+
