@@ -1,5 +1,5 @@
 {
-    "name":"<cfboom/> HTTP",
+    "name":"<cfboom/> opencsv",
     "version":"1.0.0",
     "author":"Joel Tobey <joeltobey@gmail.com>",
     "slug":"cfboom-opencsv",
@@ -11,7 +11,7 @@
         "url":"https://github.com/joeltobey/cfboom-opencsv"
     },
     "location": "https://github.com/joeltobey/cfboom-opencsv/releases/download/v1.0.0/cfboom-opencsv-v1.0.0.zip",
-    "shortDescription":"The cfboom-opencsv module provides solid, consistent HTTP request and response handling.",
+    "shortDescription":"The cfboom-opencsv module provides a wrapper facade to the opencsv project (http://opencsv.sourceforge.net).",
     "license":[
         {
             "type":"Apache2",

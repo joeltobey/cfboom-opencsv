@@ -20,10 +20,10 @@
 component {
 
     // Module Properties
-    this.title              = "cfboom HTTP";
+    this.title              = "cfboom opencsv";
     this.author             = "Joel Tobey";
     this.webURL             = "https://github.com/joeltobey/cfboom-opencsv";
-    this.description        = "The cfboom-opencsv module provides solid, consistent HTTP request and response handling.";
+    this.description        = "The cfboom-opencsv module provides a wrapper facade to the opencsv project (http://opencsv.sourceforge.net).";
     this.version            = "1.0.0";
     // If true, looks for views in the parent first, if not found, then in the module. Else vice-versa
     this.viewParentLookup   = true;
