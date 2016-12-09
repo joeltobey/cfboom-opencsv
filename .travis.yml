@@ -55,7 +55,7 @@ install:
 before_script:
   - curl http://localhost:45123/
   - curl --data "new_password=J5HIsmsWk26&new_password_re=J5HIsmsWk26&lang=en&rememberMe=s&submit=submit" http://localhost:45123/lucee/admin/web.cfm
-  - curl --data "name=cfboom_test&type=MySQL&newName=cfboom_test&host=localhost&database=cfboom_test&port=3306&timezone=&username=root&Password=&ConnectionLimit=-1&ConnectionTimeout=1&allowed_select=yes&allowed_insert=yes&allowed_update=yes&allowed_delete=yes&allowed_create=yes&allowed_drop=yes&allowed_revoke=yes&allowed_alter=yes&allowed_grant=yes&custom_useUnicode=true&custom_characterEncoding=UTF-8&custom_useLegacyDatetimeCode=true&verify=true&mark=create&run=create2&_run=create" http://localhost:45123/lucee/admin/web.cfm?action=services.datasource&action2=create
+  - box modules/cfboom-opencsv/tests/travis_db.cfm
 
 script: > 
     testResults="echo $(box testbox run runner=http://localhost:45123/modules/cfboom-opencsv/tests/runner.cfm)";
