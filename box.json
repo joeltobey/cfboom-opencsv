@@ -1,6 +1,6 @@
 {
     "name":"<cfboom/> opencsv",
-    "version":"1.0.0",
+    "version":"1.0.1",
     "author":"Joel Tobey <joeltobey@gmail.com>",
     "slug":"cfboom-opencsv",
     "type":"modules",
@@ -10,7 +10,7 @@
         "type":"git",
         "url":"https://github.com/joeltobey/cfboom-opencsv"
     },
-    "location": "https://github.com/joeltobey/cfboom-opencsv/releases/download/v1.0.0/cfboom-opencsv-v1.0.0.zip",
+    "location": "https://github.com/joeltobey/cfboom-opencsv/releases/download/v1.0.1/cfboom-opencsv-v1.0.1.zip",
     "shortDescription":"The cfboom-opencsv module provides a wrapper facade to the opencsv project (http://opencsv.sourceforge.net).",
     "license":[
         {
