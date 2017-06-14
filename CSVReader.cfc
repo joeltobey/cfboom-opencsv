@@ -17,7 +17,7 @@
 /**
  * A very simple CSV reader released under a commercial-friendly license.
  */
-component
+component singleton
     extends="cfboom.lang.Object"
     displayname="Class CSVReader"
     output="false"
