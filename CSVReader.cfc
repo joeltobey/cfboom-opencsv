@@ -22,8 +22,10 @@ component singleton
     displayname="Class CSVReader"
     output="false"
 {
-    property name="javaLoader" inject="loader@cbjavaloader";
     property name="defaultSanitizer" inject="coldbox:setting:defaultSanitizer@cfboom-opencsv";
+    property name="wirebox" inject="wirebox";
+
+    _instance['useJavaLoader'] = false;
 
     public cfboom.opencsv.CSVReader function init() {
         return this;
@@ -34,13 +36,26 @@ component singleton
     }
 
     public cfboom.opencsv.CSVReader function load( string csv, any reader ) {
-        _instance['CSVParserBuilder'] = javaLoader.create( "com.opencsv.CSVParserBuilder" ).init();
+        try {
+            _instance['CSVParserBuilder'] = createObject("java", "com.opencsv.CSVParserBuilder").init();
+        } catch (any ex) {
+            _instance['useJavaLoader'] = true;
+            _instance['javaLoader'] = wirebox.getInstance( "loader@cbjavaloader" );
+            _instance['CSVParserBuilder'] = _instance.javaLoader.create( "com.opencsv.CSVParserBuilder" ).init();
+        }
         if (structKeyExists(arguments, "csv")) {
-            _instance['CSVReaderBuilder'] = javaLoader.create( "com.opencsv.CSVReaderBuilder" ).init(
-                createObject("java", "java.io.StringReader").init( arguments.csv )
-            );
+            var stringReader = createObject("java", "java.io.StringReader").init( arguments.csv );
+            if (_instance.useJavaLoader) {
+                _instance['CSVReaderBuilder'] = _instance.javaLoader.create( "com.opencsv.CSVReaderBuilder" ).init( stringReader );
+            } else {
+                _instance['CSVReaderBuilder'] = createObject("java", "com.opencsv.CSVReaderBuilder").init( stringReader );
+            }
         } else if (structKeyExists(arguments, "reader")) {
-            _instance['CSVReaderBuilder'] = javaLoader.create( "com.opencsv.CSVReaderBuilder" ).init( arguments.reader );
+            if (_instance.useJavaLoader) {
+                _instance['CSVReaderBuilder'] = _instance.javaLoader.create( "com.opencsv.CSVReaderBuilder" ).init( arguments.reader );
+            } else {
+                _instance['CSVReaderBuilder'] = createObject("java", "com.opencsv.CSVReaderBuilder").init( arguments.reader );
+            }
         } else {
             throw("Can't load CSVReader. Must have either 'csv' or 'reader'");
         }
