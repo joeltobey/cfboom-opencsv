@@ -22,16 +22,18 @@ Just drop into your **modules** folder or use CommandBox to install
 The module registers the CSVReader: `CSVReader@cfboomOpencsv` and CSVWriter: `CSVWriter@cfboomOpencsv` that allows you to read and write CSV data. Check out the API Docs for all the possible functions.
 
 ## Settings
-There's an optional setting in your `ColdBox.cfc` file under a `cfboomOpencsv` struct to override the default `HttpRequestExecutor`:
+There's an optional setting in your `ColdBox.cfc` file under a `cfboomOpencsv` struct of `moduleSettings` to override the default `HttpRequestExecutor`:
 
 ```js
-cfboomOpencsv = {
+moduleSettings = {
+  cfboomOpencsv = {
     /**
      * The default `Sanitizer` used when building a query.
      * It must implement cfboom.opencsv.Sanitizer.
      * The default is [cfboom.opencsv.PassthroughSanitizer]
      */
     defaultSanitizer = "cfboom.opencsv.Sanitizer"
+  }
 };
 ```
 

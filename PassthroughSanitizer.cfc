@@ -17,7 +17,7 @@
 /**
  * Concrete implementation of `Sanitizer` that return exactly what it receives.
  */
-component
+component singleton
     extends="cfboom.lang.Object"
     implements="cfboom.opencsv.Sanitizer" 
     displayname="Class PassthroughSanitizer"

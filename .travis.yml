@@ -7,7 +7,7 @@ services:
 
 env:
   global:
-    - RELEASE_VERSION="1.0.0"
+    - RELEASE_VERSION="1.1.0"
     - RELEASE_PLACEHOLDER="@release.number@"
     - BUILD_PLACEHOLDER="@build.number@"
 
@@ -32,23 +32,11 @@ before_install:
   - mv Sanitizer.cfc modules/cfboom-opencsv/
 
 install:
-  # create app 2x to ensure no time outs
   - box coldbox create app
-  - box coldbox create app
-  # install coldbox 2x to ensure no time outs. It skips if coldbox is already installed.
   - box install coldbox
-  - box install coldbox
-  # install testbox 2x to ensure no time outs. It skips if testbox is already installed.
   - box install testbox
-  - box install testbox
-  # install cbjavaloader 2x to ensure no time outs. It skips if cbjavaloader is already installed.
   - box install cbjavaloader
-  - box install cbjavaloader
-  # install cfboom-lang 2x to ensure no time outs. It skips if cfboom-lang is already installed.
   - box install cfboom-lang
-  - box install cfboom-lang
-  # install cfboom-util 2x to ensure no time outs. It skips if cfboom-util is already installed.
-  - box install cfboom-util
   - box install cfboom-util
   - box server start port=45123 rewritesEnable=true JVMArgs="-DcfAdminPassword=J5HIsmsWk26" openBrowser=false
 
